@@ -13,7 +13,13 @@ RUN  \
      cd /go/src/github.com/minio/minio && \
      go install -v -ldflags "$(go run buildscripts/gen-ldflags.go)"
 
+
 FROM alpine:3.7
+COPY --from=0 /go/bin/minio /usr/bin/minio
+RUN minio server /data
+RUN sleep 10
+RUN /usr/bin/minio gateway s3 http://172.17.0.2:9000
+RUN sleep 10
 
 ENV MINIO_UPDATE off
 ENV MINIO_ACCESS_KEY_FILE=access_key \
@@ -21,7 +27,7 @@ ENV MINIO_ACCESS_KEY_FILE=access_key \
 
 EXPOSE 9000
 
-COPY --from=0 /go/bin/minio /usr/bin/minio
+
 COPY dockerscripts/docker-entrypoint.sh dockerscripts/healthcheck.sh /usr/bin/
 
 RUN  \
@@ -36,4 +42,3 @@ HEALTHCHECK --interval=30s --timeout=5s \
     CMD /usr/bin/healthcheck.sh
 
 CMD ["minio"]
-
