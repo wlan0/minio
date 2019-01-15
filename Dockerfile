@@ -30,6 +30,9 @@ RUN  \
      apk add --no-cache ca-certificates 'curl>7.61.0' && \
      echo 'hosts: files mdns4_minimal [NOTFOUND=return] dns mdns4' >> /etc/nsswitch.conf
 
+RUN nohup /usr/bin/minio server /data &
+RUN sleep 30
+
 ENTRYPOINT ["/usr/bin/docker-entrypoint.sh"]
 
 VOLUME ["/data"]
