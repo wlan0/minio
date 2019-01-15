@@ -42,4 +42,3 @@ HEALTHCHECK --interval=30s --timeout=5s \
     CMD /usr/bin/healthcheck.sh
 
 CMD ["minio"]
-
