@@ -42,3 +42,4 @@ HEALTHCHECK --interval=30s --timeout=5s \
 
 CMD ["minio"]
 
+
