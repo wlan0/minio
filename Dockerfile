@@ -16,10 +16,6 @@ RUN  \
 
 FROM alpine:3.7
 COPY --from=0 /go/bin/minio /usr/bin/minio
-RUN minio server /data
-RUN sleep 10
-RUN /usr/bin/minio gateway s3 http://172.17.0.2:9000
-RUN sleep 10
 
 ENV MINIO_UPDATE off
 ENV MINIO_ACCESS_KEY_FILE=access_key \
